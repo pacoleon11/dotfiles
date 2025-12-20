@@ -1,0 +1,122 @@
+[alias]
+ap = add -p
+au = add -u
+aurc = "!git au && git rc"
+b = branch
+ch = "!git checkout -- $(git diff --name-only)"
+cp = checkout -p
+cm = "!git checkout `git originhead`"
+co = "!f() { git checkout origin/$1; }; f" # checkout-origin
+cours = "!f() { git diff --name-only --diff-filter=U -- \"$@\" | xargs git checkout --ours; }; f"
+ctheirs = "!f() { git diff --name-only --diff-filter=U -- \"$@\" | xargs git checkout --theirs; }; f"
+ca = commit --amend
+caa = ca --no-edit
+cc = caa -a
+cwip = commit --no-verify -a -m 'wip'
+cleanf = "!git clean -xdf && git submodule foreach --recursive 'git clean -xdf'"
+diff = diff --ignore-all-space
+diffs = diff --stat
+diffo = diff HEAD@{upstream}
+difflfs = "!git -c diff.lfs.textconv=cat diff"
+diffm = "!git diff `git originhead`"
+fetchall = "!(set -e; for dir in $(git worktree list | sed -E 's/ +.*//'); do echo \"Fetching worktree: $(tput setaf 2)${dir##*/}$(tput sgr0)\"; git -C $dir fetch; done)"
+gcall = "!(set -e; for dir in $(git worktree list | sed -E 's/ +.*//'); do echo \"$(tput setaf 2)gc-ing worktree: ${dir##*/}$(tput sgr0)\"; git -C $dir prune && git -C $dir gc && git -C $dir submodule foreach --recursive 'git prune && git gc'; done)"
+lol = log --first-parent --format=format:'%C(auto)%h%d %s %C(bold)(%al %as)'
+# if 'lol' reused, no branch auto-completion
+l = log --first-parent --format=format:'%C(auto)%h%d %s %C(bold)(%al %as)' -10
+ll = log --first-parent --format=format:'%C(auto)%h%d %s %C(bold)(%al %as)' -20
+lll = log --first-parent --format=format:'%C(auto)%h%d %s %C(bold)(%al %as)' -30
+llll = log --first-parent --format=format:'%C(auto)%h%d %s %C(bold)(%al %as)' -40
+lc = "!f() { git lol --graph HEAD $1 ^`git merge-base HEAD $1`^; }; f" # lol-compare
+lcm = "!git lc `git originhead`"
+lco = lc HEAD@{upstream}
+lolo = "!f() { git lol origin/$1; }; f" # lol-origin
+lo = "!f() { git l origin/$1; }; f" # l-origin
+loh = !git l `git rev-parse --abbrev-ref --symbolic-full-name @{u}`
+originhead = "!git symbolic-ref refs/remotes/origin/HEAD"
+pushf = push --force-with-lease
+pushu = !git push --set-upstream origin `git rev-parse --abbrev-ref HEAD`
+pushh = !git fetchall && git rom && git pushf
+pushuu = !git fetchall && git rom && git pushu
+ri = rebase --interactive
+rio = ri HEAD@{upstream}
+rom = "!git rebase `git originhead`"
+romi = "!git rebase -i `git originhead`"
+rup = "!git rebase `git rev-parse --abbrev-ref --symbolic-full-name @{u}`"
+ra = rebase --abort
+rc = "!GIT_EDITOR=true git rebase --continue"
+rs = rebase --skip
+ro = rebase --onto
+rsth = reset --hard
+rsto = rsth HEAD@{upstream}
+s = status
+s1 = s -uno
+shoq = show --abbrev-commit --quiet
+shos = show --abbrev-commit --stat
+showm = show --diff-merges=first-parent
+showlfs = "!git -c diff.lfs.textconv=cat show"
+subu = submodule update --init --recursive --jobs 12
+subs = submodule status --recursive
+uc = reset HEAD^ # uncommit
+find-merge = "!f() { commit=${1:?commit not set} && git rev-parse --verify --quiet \"$commit\" > /dev/null || { echo \"invalid commit: '$commit'\" >&2; return 1; } && branch=${2:-origin/HEAD} && git rev-parse --verify --quiet \"$branch\" >/dev/null || { echo \"invalid commit2: '$branch'\" >&2; return 1; } && merge=$((git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2) && [ -n \"$merge\" ] && echo $merge || { echo \"merge not found: '$branch' and '$commit'\" >&2; return 1; } }; f"
+grep = grep --no-recurse-submodules
+
+[pull]
+ff = only
+
+[core]
+whitespace = trailing-space,tab-in-indent
+editor = vim
+autocrlf = false
+eol = lf
+
+[color "diff"]
+whitespace = red reverse
+
+[diff]
+wsErrorHighlight = all
+
+[advice]
+detachedHead = false
+
+[merge]
+tool = vimdiff
+conflictstyle = diff3
+
+[fetch]
+prune = true
+parallel = 12
+
+[user]
+name = Paco Leon
+email = franciscoleon92@gmail.com
+
+[submodule]
+recurse = true
+
+[rebase]
+autoStash = true
+
+[filter "lfs"]
+clean = git-lfs clean -- %f
+smudge = git-lfs smudge -- %f
+process = git-lfs filter-process
+required = true
+
+[color]
+ui = auto
+
+[checkout]
+workers = 12
+
+[push]
+autoSetupRemote = true
+
+[includeIf "gitdir:~/work/"]
+path = ~/.config/git/config.work
+
+[log]
+date = local
+
+[show]
+date = local

@@ -1,0 +1,8 @@
+# tags files
+tags
+
+# Finder files
+.DS_Store
+
+# Claude local settings
+settings.local.json
