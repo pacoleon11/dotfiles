@@ -11,7 +11,7 @@ return {
     view = {
       centralize_selection = true,
       signcolumn = "no",
-      width = {},
+      width = { max = 40 },
     },
     git = { timeout = 2000 },
     renderer = {
@@ -27,6 +27,7 @@ return {
             arrow_open = "▼",
           },
           git = {
+            staged = "*",
             unstaged = "~",
             untracked = "+",
           },

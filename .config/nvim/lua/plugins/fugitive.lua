@@ -5,10 +5,10 @@ return {
       "<leader>gr",
       function()
         local word = vim.fn.expand("<cword>")
-        vim.cmd('Ggrep! --quiet ' .. word)
+        vim.cmd('Ggrep! --quiet --word-regexp ' .. word)
       end,
       silent=true,
-      desc="Repository-wide git grep"
+      desc="git grep on the whole repository"
     },
     {
       "<leader>gg",
@@ -20,14 +20,19 @@ return {
         end
         dir = vim.fn.fnamemodify(dir, ":.")
         local word = vim.fn.shellescape(vim.fn.expand("<cword>"))
-        vim.cmd(string.format('Ggrep! --quiet %s %s', word, dir))
+        vim.cmd(string.format('Ggrep! --quiet --word-regexp %s %s', word, dir))
       end,
       silent=true,
       desc="git grep on directory containing `tags`"
     },
   },
   cmd = { "Ggrep" },
-  config = function()
-    vim.api.nvim_create_user_command('Gg', 'Ggrep! --quiet <args>', { nargs = "+" })
-  end,
+  -- config = function()
+  --   vim.api.nvim_create_user_command('Gg',
+  --   function(opts)
+  --     vim.cmd('Ggrep! --quiet --')
+  --   end,
+  --   nargs = "+",
+  --   )
+  -- end,
 }

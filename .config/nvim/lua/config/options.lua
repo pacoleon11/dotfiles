@@ -2,7 +2,7 @@
 local opt = vim.opt
 
 -- env
-vim.opt.shellcmdflag = "-i -c"
+opt.shellcmdflag = "-i -c"
 
 -- Indentation
 opt.shiftwidth = 2
@@ -30,11 +30,3 @@ opt.cursorline = true
 opt.colorcolumn = "151"
 opt.wildmode = "longest:full,full"
 opt.clipboard = "unnamedplus"
-
--- Highlighting
-
-vim.api.nvim_set_hl(0, "@punctuation.delimiter", {})
-vim.api.nvim_set_hl(0, "@operator", {})
-vim.api.nvim_set_hl(0, "@variable.parameter", {})
-vim.api.nvim_set_hl(0, "@lsp.typemod.variable.defaultLibrary", { link = "Constant" })
-vim.api.nvim_set_hl(0, "@lsp.typemod.enumMember.defaultLibrary", { link = "Constant" })
