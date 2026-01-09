@@ -1,48 +1,59 @@
-# Aliases
+# Paco's zshrc
+
+# ------------------------------------------------------------------------------
+# env
+
+export PATH="/opt/homebrew/bin:$PATH"
+
+export FPATH="/opt/homebrew/share/zsh/site-functions:$FPATH"
+
+export CLICOLOR=1
+
+export HISTFILE="$HOME/.zsh_history"
+HISTSIZE=10000000
+SAVEHIST=10000000
+
+PROMPT='%F{75}%~%f %F{yellow}$(prompt_git_branch)%f$(prompt_env)%(?.%F{10}.%F{9})$%f '
+
+# ------------------------------------------------------------------------------
+# opt
+
+setopt no_beep
+setopt prompt_subst
+
+unsetopt bang_hist
+setopt extended_history
+setopt inc_append_history
+setopt hist_expire_dups_first
+setopt hist_ignore_all_dups
+setopt hist_find_no_dups
+setopt hist_ignore_space
+setopt hist_save_no_dups
+setopt hist_reduce_blanks
+setopt hist_verify
+
+# ------------------------------------------------------------------------------
+# zmod
+
+# ------------------------------------------------------------------------------
+# autoload
+
+autoload -Uz compinit && compinit
+
+# ------------------------------------------------------------------------------
+# keybind
+
+# ------------------------------------------------------------------------------
+# alias
+
 alias ll='ls -oh'
 alias la='ls -oAh'
 
 alias hex='printf "%#010x\n"'
 alias dec='printf "%d\n"'
 
-# Remove annoying beep
-setopt no_beep
-
-# color in ls
-export CLICOLOR=1
-
-# Enable colors
-autoload -U colors && colors
-
-# Brew binaries (prepended to PATH to take precedence)
-export PATH="/opt/homebrew/bin:$PATH"
-
-# Brew autocompletions
-export FPATH="/opt/homebrew/share/zsh/site-functions:$FPATH"
-
-# Enable auto-completion
-autoload -Uz compinit && compinit
-
-# Prompt
-setopt prompt_subst
-prompt_git_branch() {
-  git branch 2> /dev/null | sed \
-    -e '/^[^*]/d' \
-    -e 's/^* //' \
-    -e 's/(\(.*\))/\1/' \
-    -e 's/^HEAD detached at //' \
-    -e 's/.*/& /'
-}
-prompt_env(){} # To be overriden by work/personal environment prompt
-PROMPT='%F{75}%~%f %F{yellow}$(prompt_git_branch)%f$(prompt_env)%(?.%F{10}.%F{9})$%f '
-
-# Work integration
-if [[ -f ~/.zshrc.work ]]; then
-  source ~/.zshrc.work
-fi
-if [[ -d ~/work ]]; then
-  export CDPATH=~/work
-fi
+# ------------------------------------------------------------------------------
+# func
 
 # Rerun interminttenly passing/failing commands
 function rerun(){
@@ -66,19 +77,29 @@ function rerun(){
   done
 }
 
-# History
-export HISTFILE="$HOME/.zsh_history"
-HISTSIZE=10000000
-SAVEHIST=10000000
-unsetopt BANG_HIST               # Treat the '!' character normally during expansion.
-setopt EXTENDED_HISTORY          # Write the history file in the ":start:elapsed;command" format.
-setopt INC_APPEND_HISTORY        # Write to the history file immediately, not when the shell exits.
-setopt HIST_EXPIRE_DUPS_FIRST    # Expire duplicate entries first when trimming history.
-setopt HIST_IGNORE_DUPS          # Don't record an entry that was just recorded again.
-setopt HIST_IGNORE_ALL_DUPS      # Delete old recorded entry if new entry is a duplicate.
-setopt HIST_FIND_NO_DUPS         # Do not display a line previously found.
-setopt HIST_IGNORE_SPACE         # Don't record an entry starting with a space.
-setopt HIST_SAVE_NO_DUPS         # Don't write duplicate entries in the history file.
-setopt HIST_REDUCE_BLANKS        # Remove superfluous blanks before recording entry.
-setopt HIST_VERIFY               # Don't execute immediately upon history expansion.
-setopt HIST_BEEP                 # Beep when accessing nonexistent history.
+prompt_git_branch() {
+  git branch 2> /dev/null | sed \
+    -e '/^[^*]/d' \
+    -e 's/^* //' \
+    -e 's/(\(.*\))/\1/' \
+    -e 's/^HEAD detached at //' \
+    -e 's/.*/& /'
+}
+
+prompt_env(){} # To be overriden by each env
+
+# ------------------------------------------------------------------------------
+# completion
+
+# ------------------------------------------------------------------------------
+# hook
+
+# ------------------------------------------------------------------------------
+# external
+
+if [[ -f ~/.zshrc.work ]]; then
+  source ~/.zshrc.work
+fi
+if [[ -d ~/work ]]; then
+  export CDPATH=~/work
+fi
