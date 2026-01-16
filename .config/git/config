@@ -1,11 +1,11 @@
 [alias]
 ap = add -p
 au = add -u
-aurc = "!git au && git rc"
+aurc = !git au && git rc
 b = branch
-ch = "!git checkout -- $(git diff --name-only)"
+ch = !git checkout -- $(git diff --name-only)
 cp = checkout -p
-cm = "!git checkout `git originhead`"
+cm = !git checkout `git originhead`
 co = "!f() { git checkout origin/$1; }; f" # checkout-origin
 cours = "!f() { git diff --name-only --diff-filter=U -- \"$@\" | xargs git checkout --ours; }; f"
 ctheirs = "!f() { git diff --name-only --diff-filter=U -- \"$@\" | xargs git checkout --theirs; }; f"
@@ -13,12 +13,13 @@ ca = commit --amend
 caa = ca --no-edit
 cc = caa -a
 cwip = commit --no-verify -a -m 'wip'
-cleanf = "!git clean -xdf && git submodule foreach --recursive 'git clean -xdf'"
+cleanf = !git clean -xdf && git submodule foreach --recursive 'git clean -xdf'
 diff = diff --ignore-all-space
 diffs = diff --stat
 diffo = diff HEAD@{upstream}
-difflfs = "!git -c diff.lfs.textconv=cat diff"
-diffm = "!git diff `git originhead`"
+diffm = !git diff `git originhead`
+lfs-diff = !git -c diff.lfs.textconv=cat diff
+lfs-largest = !git lfs ls-files -s | sed -e 's/[[:xdigit:]]* \\* \\([a-zA-Z0-9\\/_\\.-]*\\) (\\(.*\\) \\(.*\\))/\\2\\3 \\1/' | sort -h | tail -10
 fetchall = "!(set -e; for dir in $(git worktree list | sed -E 's/ +.*//'); do echo \"Fetching worktree: $(tput setaf 2)${dir##*/}$(tput sgr0)\"; git -C $dir fetch; done)"
 gcall = "!(set -e; for dir in $(git worktree list | sed -E 's/ +.*//'); do echo \"$(tput setaf 2)gc-ing worktree: ${dir##*/}$(tput sgr0)\"; git -C $dir prune && git -C $dir gc && git -C $dir submodule foreach --recursive 'git prune && git gc'; done)"
 lol = log --first-parent --format=format:'%C(auto)%h%d %s %C(bold)(%al %as)'
@@ -28,23 +29,23 @@ ll = log --first-parent --format=format:'%C(auto)%h%d %s %C(bold)(%al %as)' -20
 lll = log --first-parent --format=format:'%C(auto)%h%d %s %C(bold)(%al %as)' -30
 llll = log --first-parent --format=format:'%C(auto)%h%d %s %C(bold)(%al %as)' -40
 lc = "!f() { git lol --graph HEAD $1 ^`git merge-base HEAD $1`^; }; f" # lol-compare
-lcm = "!git lc `git originhead`"
+lcm = !git lc `git originhead`
 lco = lc HEAD@{upstream}
 lolo = "!f() { git lol origin/$1; }; f" # lol-origin
 lo = "!f() { git l origin/$1; }; f" # l-origin
 loh = !git l `git rev-parse --abbrev-ref --symbolic-full-name @{u}`
-originhead = "!git symbolic-ref refs/remotes/origin/HEAD"
+originhead = !git symbolic-ref refs/remotes/origin/HEAD
 pushf = push --force-with-lease
 pushu = !git push --set-upstream origin `git rev-parse --abbrev-ref HEAD`
 pushh = !git fetchall && git rom && git pushf
 pushuu = !git fetchall && git rom && git pushu
 ri = rebase --interactive
 rio = ri HEAD@{upstream}
-rom = "!git rebase `git originhead`"
-romi = "!git rebase -i `git originhead`"
-rup = "!git rebase `git rev-parse --abbrev-ref --symbolic-full-name @{u}`"
+rom = !git rebase `git originhead`
+romi = !git rebase -i `git originhead`
+rup = !git rebase `git rev-parse --abbrev-ref --symbolic-full-name @{u}`
 ra = rebase --abort
-rc = "!GIT_EDITOR=true git rebase --continue"
+rc = !GIT_EDITOR=true git rebase --continue
 rs = rebase --skip
 ro = rebase --onto
 rsth = reset --hard
@@ -54,7 +55,7 @@ s1 = s -uno
 shoq = show --abbrev-commit --quiet
 shos = show --abbrev-commit --stat
 showm = show --diff-merges=first-parent
-showlfs = "!git -c diff.lfs.textconv=cat show"
+showlfs = !git -c diff.lfs.textconv=cat show
 subu = submodule update --init --recursive --jobs 12
 subs = submodule status --recursive
 uc = reset HEAD^ # uncommit
