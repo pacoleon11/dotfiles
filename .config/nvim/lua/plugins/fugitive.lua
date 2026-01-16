@@ -27,12 +27,7 @@ return {
     },
   },
   cmd = { "Ggrep" },
-  -- config = function()
-  --   vim.api.nvim_create_user_command('Gg',
-  --   function(opts)
-  --     vim.cmd('Ggrep! --quiet --')
-  --   end,
-  --   nargs = "+",
-  --   )
-  -- end,
+  config = function()
+    vim.api.nvim_create_user_command("Gg", function(opts) vim.cmd("Ggrep! --quiet " .. opts.args) end, { nargs = "*", complete = "file", })
+  end,
 }
