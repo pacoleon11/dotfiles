@@ -24,9 +24,14 @@ opt.ignorecase = true
 opt.smartcase = true
 opt.tagcase = "match"
 
+-- Completion
+opt.completeopt = "menu,popup,longest"
+opt.wildmenu = true
+opt.wildoptions = "pum,tagfile"
+opt.wildmode = "longest:full,full"
+
 -- Misc
 opt.splitright = true
 opt.cursorline = true
 opt.colorcolumn = "151"
-opt.wildmode = "longest:full,full"
 opt.clipboard = "unnamedplus"
