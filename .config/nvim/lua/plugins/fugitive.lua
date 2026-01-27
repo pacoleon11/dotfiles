@@ -26,8 +26,8 @@ return {
       desc="git grep on directory containing `tags`"
     },
   },
-  cmd = { "Ggrep" },
+  cmd = { "Gx" },
   config = function()
-    vim.api.nvim_create_user_command("Gg", function(opts) vim.cmd("Ggrep! --quiet " .. opts.args) end, { nargs = "*", complete = "file", })
+    vim.api.nvim_create_user_command("Gx", function(opts) vim.cmd("Ggrep --quiet " .. opts.args) end, { nargs = "*", complete = "file", })
   end,
 }
