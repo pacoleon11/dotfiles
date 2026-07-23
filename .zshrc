@@ -52,6 +52,8 @@ alias la='ls -oAh'
 alias hex='printf "%#010x\n"'
 alias dec='printf "%d\n"'
 
+alias gg='git grep'
+
 # ------------------------------------------------------------------------------
 # func
 

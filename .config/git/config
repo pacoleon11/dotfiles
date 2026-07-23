@@ -18,6 +18,7 @@ diff = diff --ignore-all-space
 diffs = diff --stat
 diffo = diff HEAD@{upstream}
 diffm = !git diff `git originhead`
+fcm = !git fetch && git cm
 lfs-diff = !git -c diff.lfs.textconv=cat diff
 lfs-largest = !git lfs ls-files -s | sed -e 's/[[:xdigit:]]* \\* \\([a-zA-Z0-9\\/_\\.-]*\\) (\\(.*\\) \\(.*\\))/\\2\\3 \\1/' | sort -h | tail -10
 fetchall = "!(set -e; for dir in $(git worktree list | sed -E 's/ +.*//'); do echo \"Fetching worktree: $(tput setaf 2)${dir##*/}$(tput sgr0)\"; git -C $dir fetch; done)"
@@ -91,9 +92,6 @@ parallel = 12
 [user]
 name = Paco Leon
 email = franciscoleon92@gmail.com
-
-[submodule]
-recurse = true
 
 [rebase]
 autoStash = true

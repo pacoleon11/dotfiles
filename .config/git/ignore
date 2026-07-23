@@ -6,3 +6,6 @@ tags
 
 # Claude local settings
 settings.local.json
+
+# pycache
+*.pyc
