@@ -2,6 +2,8 @@
 
 # ------------------------------------------------------------------------------
 # env
+# export variables needed by child processes
+# don't export variables only needed by current zsh process
 
 export PATH="/opt/homebrew/bin:$PATH"
 
@@ -10,9 +12,9 @@ export FPATH="/opt/homebrew/share/zsh/site-functions:$FPATH"
 export CLICOLOR=1
 
 export HISTFILE="$HOME/.zsh_history"
+
 HISTSIZE=10000000
 SAVEHIST=10000000
-
 PROMPT='%F{75}%~%f %F{yellow}$(prompt_git_branch)%f$(prompt_env)%(?.%F{10}.%F{9})$%f '
 
 # ------------------------------------------------------------------------------
@@ -53,6 +55,7 @@ alias hex='printf "%#010x\n"'
 alias dec='printf "%d\n"'
 
 alias gg='git grep'
+alias gs='git status'
 
 # ------------------------------------------------------------------------------
 # func
