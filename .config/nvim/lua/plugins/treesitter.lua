@@ -1,11 +1,13 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  branch = "master",
+  branch = "main",
   lazy = false,
   build = ":TSUpdate",
-  main = "nvim-treesitter.configs",
-  opts = {
-    ensure_installed = { "python" },
-    -- highlight = { enable = true },
-  }
+  config = function()
+    require("nvim-treesitter").install({ "python", "bash" })
+    vim.api.nvim_create_autocmd("FileType", {
+      pattern = { "python", "bash", "sh" },
+      callback = function() vim.treesitter.start() end,
+    })
+  end,
 }
