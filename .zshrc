@@ -54,6 +54,7 @@ alias la='ls -oAh'
 alias hex='printf "%#010x\n"'
 alias dec='printf "%d\n"'
 
+alias g='git'
 alias gg='git grep'
 alias gs='git status'
 
