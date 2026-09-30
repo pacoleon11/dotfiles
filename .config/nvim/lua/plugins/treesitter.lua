@@ -4,9 +4,10 @@ return {
   lazy = false,
   build = ":TSUpdate",
   config = function()
-    require("nvim-treesitter").install({ "python", "bash" })
+    local languages = { "python", "bash", "zsh", "yaml", "cpp" }
+    require("nvim-treesitter").install(languages)
     vim.api.nvim_create_autocmd("FileType", {
-      pattern = { "python", "bash", "sh" },
+      pattern = languages,
       callback = function() vim.treesitter.start() end,
     })
   end,
