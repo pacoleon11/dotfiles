@@ -12,16 +12,19 @@ ctheirs = "!f() { git diff --name-only --diff-filter=U -- \"$@\" | xargs git che
 ca = commit --amend
 caa = ca --no-edit
 cc = caa -a
-cwip = commit --no-verify -a -m 'wip'
+cherry-pick-across = "!f() { unset GIT_DIR GIT_WORK_TREE GIT_PREFIX; git -C \"${1:?orig path not set}\" format-patch -k --stdout -1 \"${2:?commit not set}\" | git am -3 -k; }; f"
 cleanf = !git clean -xdf && git submodule foreach --recursive 'git clean -xdf'
+cwip = commit --no-verify -a -m 'wip'
 diff = diff --ignore-all-space
 diffs = diff --stat
 diffo = diff HEAD@{upstream}
 diffm = !git diff `git originhead`
 fcm = !git fetch && git cm
+grep = grep --no-recurse-submodules
 lfs-diff = !git -c diff.lfs.textconv=cat diff
 lfs-largest = !git lfs ls-files -s | sed -e 's/[[:xdigit:]]* \\* \\([a-zA-Z0-9\\/_\\.-]*\\) (\\(.*\\) \\(.*\\))/\\2\\3 \\1/' | sort -h | tail -10
 fetchall = "!(set -e; for dir in $(git worktree list | sed -E 's/ +.*//'); do echo \"Fetching worktree: $(tput setaf 2)${dir##*/}$(tput sgr0)\"; git -C $dir fetch; done)"
+find-merge = "!f() { commit=${1:?commit not set} && git rev-parse --verify --quiet \"$commit\" > /dev/null || { echo \"invalid commit: '$commit'\" >&2; return 1; } && branch=${2:-origin/HEAD} && git rev-parse --verify --quiet \"$branch\" >/dev/null || { echo \"invalid commit2: '$branch'\" >&2; return 1; } && merge=$((git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2) && [ -n \"$merge\" ] && echo $merge || { echo \"merge not found: '$branch' and '$commit'\" >&2; return 1; } }; f"
 gcall = "!(set -e; for dir in $(git worktree list | sed -E 's/ +.*//'); do echo \"$(tput setaf 2)gc-ing worktree: ${dir##*/}$(tput sgr0)\"; git -C $dir prune && git -C $dir gc && git -C $dir submodule foreach --recursive 'git prune && git gc'; done)"
 lol = log --first-parent --format=format:'%C(auto)%h%d %s %C(bold)(%al %as)'
 # if 'lol' reused, no branch auto-completion
@@ -60,8 +63,7 @@ showlfs = !git -c diff.lfs.textconv=cat show
 subu = submodule update --init --recursive --jobs 12
 subs = submodule status --recursive
 uc = reset HEAD^ # uncommit
-find-merge = "!f() { commit=${1:?commit not set} && git rev-parse --verify --quiet \"$commit\" > /dev/null || { echo \"invalid commit: '$commit'\" >&2; return 1; } && branch=${2:-origin/HEAD} && git rev-parse --verify --quiet \"$branch\" >/dev/null || { echo \"invalid commit2: '$branch'\" >&2; return 1; } && merge=$((git rev-list $commit..$branch --ancestry-path | cat -n; git rev-list $commit..$branch --first-parent | cat -n) | sort -k2 -s | uniq -f1 -d | sort -n | tail -1 | cut -f2) && [ -n \"$merge\" ] && echo $merge || { echo \"merge not found: '$branch' and '$commit'\" >&2; return 1; } }; f"
-grep = grep --no-recurse-submodules
+w = worktree list
 
 [pull]
 ff = only
