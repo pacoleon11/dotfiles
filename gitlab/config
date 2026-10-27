@@ -5,5 +5,5 @@ timeout = 120
 
 [gitlab]
 url = https://gitlab.csg.apple.com
-private_token = helper: bash -c 'printf %%s "${GITLAB_API_TOKEN:?}"'
+private_token = helper: cat ~/.config/gitlab/work-token
 api_version = 4

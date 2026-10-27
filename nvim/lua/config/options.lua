@@ -38,15 +38,6 @@ opt.clipboard = "unnamedplus"
 
 -- Expand ${VAR} / $VAR in paths for gf (e.g. "${ROOT_PATH}/tools/bin/rcm/gen_rcm_spec_files.sh")
 opt.isfname:append("$,{,}")
-opt.includeexpr = "v:lua.require'config.options'.expand_env_path(v:fname)"
+opt.includeexpr = "v:lua.require'config.util'.expand_env_path(v:fname)"
 
-local M = {}
-function M.expand_env_path(fname)
-  return (fname:gsub("%$%b{}", function(s)
-    return vim.env[s:sub(3, -2)] or s
-  end):gsub("%$([%w_]+)", function(name)
-    return vim.env[name] or ("$" .. name)
-  end))
-end
-
-return M
+vim.diagnostic.enable(false)

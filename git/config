@@ -84,7 +84,7 @@ wsErrorHighlight = all
 detachedHead = false
 
 [merge]
-tool = vimdiff
+tool = nvimdiff
 conflictstyle = diff3
 
 [fetch]
@@ -113,11 +113,11 @@ workers = 12
 [push]
 autoSetupRemote = true
 
-[includeIf "gitdir:~/work/"]
-path = ~/.config/git/config.work
-
 [log]
 date = local
 
 [show]
 date = local
+
+[includeIf "gitdir:~/work/"]
+path = ~/.config/git/work-config
