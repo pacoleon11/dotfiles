@@ -59,7 +59,7 @@ s1 = s -uno
 shoq = show --abbrev-commit --quiet
 shos = show --abbrev-commit --stat
 showm = show --diff-merges=first-parent
-showlfs = !git -c diff.lfs.textconv=cat show
+showlfs = !git -c diff.lfs.textconv=cat show --text
 subu = submodule update --init --recursive --jobs 12
 subs = submodule status --recursive
 uc = reset HEAD^ # uncommit
